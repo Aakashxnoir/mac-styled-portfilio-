@@ -4,27 +4,35 @@ A responsive, interactive, and beautifully designed developer portfolio styled a
 
 ## 📸 Screenshots & Visual Tour
 
-### 1. Desktop Workspace
-![Desktop Workspace](./assets/bliss_desktop.png)
-*The main desktop workspace running the classic **Windows XP Bliss** wallpaper preset. It includes desktop icons on the right, a system menubar at the top, and the interactive app dock at the bottom.*
+<p align="center">
+  <img src="./assets/bliss_desktop.png" alt="Desktop Workspace" width="100%">
+  <br>
+  <sub><b>Desktop Workspace:</b> The main desktop workspace running the classic Windows XP Bliss wallpaper preset. It includes desktop icons on the right, a system menubar at the top, and the interactive app dock at the bottom.</sub>
+</p>
 
----
+<br>
 
-### 2. Multi-Window Multitasking
-![Multi-Window Workspace](./assets/all_windows_open.png)
-*All portfolio applications (Projects, Resume, Skills, About, Achievements, and Contact) open simultaneously. The windows are draggable, resizable, and support focus stacking (Z-index layering).*
+<p align="center">
+  <img src="./assets/all_windows_open.png" alt="Multi-Window Workspace" width="100%">
+  <br>
+  <sub><b>Multi-Window Multitasking:</b> All portfolio applications (Projects, Resume, Skills, About, Achievements, and Contact) open simultaneously. The windows are draggable, resizable, and support focus stacking (Z-index layering).</sub>
+</p>
 
----
+<br>
 
-### 3. Advanced Wallpaper & Background Configurations
-![Wallpaper Preferences](./assets/wallpaper_settings.png)
-*The wallpaper preference panel. Users can choose from presets, paste image/GIF URLs, or upload local image files. For transparent images or GIFs, they can configure the scale layout and custom solid background colors directly beneath it, as well as toggle a CSS starfield canvas.*
+<p align="center">
+  <img src="./assets/wallpaper_settings.png" alt="Wallpaper Preferences" width="380">
+  <br>
+  <sub><b>Wallpaper Settings Panel:</b> The wallpaper preference panel. Users can choose from presets, paste image/GIF URLs, or upload local image files. For transparent images or GIFs, they can configure the scale layout and custom solid background colors directly beneath it, as well as toggle a CSS starfield canvas.</sub>
+</p>
 
----
+<br>
 
-### 4. Interactive Easter Eggs
-![Secret Easter Egg](./assets/easter_egg.png)
-*The hidden "Secret" window, unlocked dynamically by typing the classic **Konami Code** (`↑` `↑` `↓` `↓` `←` `→` `←` `→` `b` `a`) anywhere on the desktop.*
+<p align="center">
+  <img src="./assets/easter_egg.png" alt="Secret Easter Egg" width="480">
+  <br>
+  <sub><b>Interactive Easter Eggs:</b> The hidden "Secret" window, unlocked dynamically by typing the classic Konami Code (↑ ↑ ↓ ↓ ← → ← → b a) anywhere on the desktop.</sub>
+</p>
 
 ---
 
