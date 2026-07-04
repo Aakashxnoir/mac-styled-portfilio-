@@ -1,0 +1,9 @@
+{
+  "name": "mac-portfolio",
+  "private": true,
+  "scripts": {
+    "start": "python -m http.server 8080",
+    "dev": "python -m http.server 8080",
+    "open": "start http://localhost:8080/"
+  }
+}

@@ -1,0 +1,2010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aakash Buddha Kannan — Full-Stack Developer & Personal OS</title>
+    <meta name="description" content="Explore Aakash Buddha Kannan's developer portfolio in a macOS-style Personal OS desktop environment. Discover full-stack projects, achievements, skills, and interactive terminal features.">
+    <meta name="keywords" content="Aakash Buddha Kannan, portfolio, personal OS, web desktop, developer, computer science, react, flask, spring boot">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aakashbuddhakannan.dev/">
+    <meta property="og:title" content="Aakash Buddha Kannan — Personal OS Portfolio">
+    <meta property="og:description" content="Explore my full-stack projects, skills, and achievements inside a custom macOS-like desktop environment.">
+    <meta property="og:image" content="https://aakashbuddhakannan.dev/og-image.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Aakash Buddha Kannan — Personal OS Portfolio">
+    <meta name="twitter:description" content="Explore my full-stack projects, skills, and achievements inside a custom macOS-like desktop environment.">
+    
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="canonical" href="https://aakashbuddhakannan.dev/">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%92%BB</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --os-bg: radial-gradient(ellipse at 70% 30%, #dfe0e8 0%, #c8c8d0 100%);
+            --window-chrome: #ffffff;
+            --window-border: rgba(0,0,0,0.12);
+            --text-primary: #1C1C1E;
+            --text-secondary: #6E6E73;
+            --accent: #007AFF;
+            --glass-bg: rgba(235,235,240,0.75);
+            --glass-border: rgba(255,255,255,0.6);
+            --terminal-bg: #1a1a1c;
+            --terminal-text: #30d158;
+            --card-bg: #fafafa;
+            --card-border: #e0e0e5;
+            --pill-bg: #ebebf0;
+            --pill-text: #3a3a3c;
+            --shadow-window: 0 24px 64px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-window-focused: 0 28px 80px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.1);
+            --header-border: rgba(0,0,0,0.09);
+            --menubar-border: rgba(0,0,0,0.08);
+            --dropdown-bg: rgba(248,248,250,0.95);
+            --dropdown-border: rgba(0,0,0,0.12);
+        }
+
+        body.dark-theme {
+            --os-bg: radial-gradient(ellipse at 30% 70%, #1a1a2e 0%, #0f0f18 100%);
+            --window-chrome: #1e1e1e;
+            --window-border: rgba(255,255,255,0.12);
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --accent: #0a84ff;
+            --glass-bg: rgba(30,30,30,0.75);
+            --glass-border: rgba(255,255,255,0.1);
+            --terminal-bg: #050505;
+            --terminal-text: #30d158;
+            --card-bg: #2c2c2e;
+            --card-border: #3a3a3c;
+            --pill-bg: #3a3a3c;
+            --pill-text: #e5e5ea;
+            --shadow-window: 0 24px 64px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2);
+            --shadow-window-focused: 0 28px 80px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+            --header-border: rgba(255,255,255,0.1);
+            --menubar-border: rgba(255,255,255,0.08);
+            --dropdown-bg: rgba(30,30,32,0.95);
+            --dropdown-border: rgba(255,255,255,0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+
+        body { background: var(--os-bg); color: var(--text-primary); overflow: hidden; width: 100vw; height: 100vh; }
+
+        /* ── BOOT ── */
+        #boot-screen {
+            position: fixed; inset: 0;
+            background: linear-gradient(160deg, #0f0f12 0%, #1a1a2e 60%, #0d0d0f 100%);
+            color: white; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 99999; transition: opacity 0.6s ease-out;
+        }
+        .boot-avatar {
+            width: 96px; height: 96px;
+            background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 32px; font-weight: 700; margin-bottom: 20px;
+            box-shadow: 0 0 40px rgba(0,122,255,0.35);
+            letter-spacing: -1px;
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 40px rgba(0,122,255,0.35); }
+            50% { box-shadow: 0 0 55px rgba(0,122,255,0.55); }
+        }
+        .boot-name { font-size: 22px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.3px; }
+        
+        .boot-tagline {
+            font-size: 13px;
+            color: #8E8E93;
+            margin-bottom: 44px;
+            border-right: 1.5px solid rgba(255,255,255,0.75);
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            max-width: max-content;
+            animation: typing 1.5s steps(22, end) 0.3s forwards, blink-caret 0.75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: rgba(255,255,255,0.75); }
+        }
+        .progress-bar-container { width: 180px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; overflow: hidden; }
+        .progress-bar { height: 100%; width: 0%; background: rgba(255,255,255,0.85); transition: width 2.2s cubic-bezier(0.4,0,0.2,1); border-radius: 2px; }
+
+        /* ── DESKTOP ── */
+        #desktop-view { width: 100%; height: 100%; position: relative; background: var(--os-bg); transition: background 0.3s ease; }
+        
+        /* Starfield effect custom class */
+        #desktop-view.starfield::after {
+            content: ''; position: absolute; inset: 0;
+            background-image: 
+                radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px),
+                radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px),
+                radial-gradient(circle, rgba(255,255,255,0.5) 1.5px, transparent 1.5px);
+            background-size: 200px 200px, 350px 350px, 500px 500px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            opacity: 0.45; pointer-events: none; z-index: 0;
+        }
+        
+        /* Grid texture as default */
+        #desktop-view::before {
+            content: ''; position: absolute; inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+            background-size: 28px 28px; pointer-events: none; z-index: 0;
+        }
+
+        /* ── MENUBAR ── */
+        #menubar {
+            height: 28px; width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 0.5px solid var(--menubar-border);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 16px; font-size: 13px;
+            position: absolute; top: 0; left: 0; z-index: 9000;
+        }
+        .menubar-left { display: flex; gap: 0; align-items: center; }
+        .menubar-item {
+            padding: 2px 10px; border-radius: 5px; cursor: default;
+            position: relative; font-weight: 400; color: var(--text-primary);
+            transition: background 0.1s;
+        }
+        .menubar-item.brand { font-weight: 600; }
+        .menubar-item:hover { background: rgba(0,0,0,0.07); }
+        body.dark-theme .menubar-item:hover { background: rgba(255,255,255,0.08); }
+
+        /* dropdown menu */
+        .menubar-item .dropdown {
+            display: none; position: absolute; top: 24px; left: 0;
+            background: var(--dropdown-bg); backdrop-filter: blur(20px);
+            border: 0.5px solid var(--dropdown-border); border-radius: 8px;
+            min-width: 200px; padding: 5px 0; z-index: 99999;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .menubar-item:hover .dropdown,
+        .menubar-item.active .dropdown { display: block; }
+        .dropdown-item {
+            padding: 5px 16px; font-size: 13px; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+            color: var(--text-primary); transition: background 0.1s;
+        }
+        .dropdown-item:hover { background: var(--accent); color: white; border-radius: 4px; margin: 0 4px; padding: 5px 12px; }
+        .dropdown-item.disabled { color: var(--text-secondary); cursor: default; }
+        .dropdown-item.disabled:hover { background: none; color: var(--text-secondary); margin: 0; padding: 5px 16px; }
+        .dropdown-separator { height: 0.5px; background: rgba(0,0,0,0.1); margin: 4px 0; }
+        body.dark-theme .dropdown-separator { background: rgba(255,255,255,0.1); }
+
+        .menubar-right { display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 400; color: var(--text-primary); }
+        .menubar-right span { cursor: default; }
+
+        /* ── DESKTOP ICONS ── */
+        #desktop-icons {
+            position: absolute; top: 28px; left: 0; right: 0; bottom: 0;
+            z-index: 10; pointer-events: none;
+        }
+        .desktop-icon {
+            position: absolute; pointer-events: auto;
+            display: flex; flex-direction: column; align-items: center;
+            width: 76px; cursor: pointer; padding: 6px 4px; border-radius: 8px;
+            transition: background 0.15s;
+        }
+        .desktop-icon:hover { background: rgba(255,255,255,0.25); }
+        body.dark-theme .desktop-icon:hover { background: rgba(255,255,255,0.12); }
+        .desktop-icon.selected { background: rgba(0,122,255,0.3); }
+        .icon-img { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; }
+        .desktop-icon span {
+            margin-top: 3px; font-size: 11.5px; font-weight: 500;
+            color: #ffffff; text-align: center;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.85), 0 0 4px rgba(0,0,0,0.5);
+            max-width: 72px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+
+        /* ── DOCK ── */
+        #dock-container { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); z-index: 9000; }
+        #dock {
+            background: rgba(240,240,245,0.6);
+            backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 0.5px solid rgba(255,255,255,0.7);
+            border-radius: 18px; padding: 8px 12px;
+            display: flex; gap: 6px; align-items: flex-end;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,0.5);
+        }
+        body.dark-theme #dock {
+            background: rgba(30,30,35,0.6);
+            border-color: rgba(255,255,255,0.12);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+        .dock-slot { position: relative; display: flex; flex-direction: column; align-items: center; }
+        .dock-btn {
+            width: 48px; height: 48px; cursor: pointer; border-radius: 12px; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.1s cubic-bezier(0.25,0.46,0.45,0.94);
+            transform-origin: bottom center;
+        }
+        .dock-btn:hover ~ .dock-tooltip { opacity: 1; transform: translateX(-50%) translateY(-2px); }
+        .dock-tooltip {
+            position: absolute; bottom: 62px; left: 50%; transform: translateX(-50%) translateY(4px);
+            background: rgba(30,30,32,0.85); color: rgba(255,255,255,0.92);
+            padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 500;
+            opacity: 0; pointer-events: none; transition: opacity 0.15s, transform 0.15s;
+            white-space: nowrap; backdrop-filter: blur(8px);
+            z-index: 10000;
+        }
+        body.dark-theme .dock-tooltip {
+            background: rgba(240,240,245,0.9); color: #1c1c1e;
+        }
+        .dock-dot { width: 4px; height: 4px; background: var(--text-primary); border-radius: 50%; margin-top: 3px; opacity: 0; transition: opacity 0.2s; }
+        .dock-slot.active .dock-dot { opacity: 1; }
+
+        /* ── WINDOWS ── */
+        #window-container { position: absolute; inset: 0; pointer-events: none; z-index: 100; }
+        .os-window {
+            position: absolute; background: var(--window-chrome);
+            border-radius: 12px; border: 0.5px solid var(--window-border);
+            box-shadow: var(--shadow-window);
+            display: flex; flex-direction: column;
+            pointer-events: auto; min-width: 400px; min-height: 280px; overflow: hidden;
+            opacity: 0; transform: scale(0.96) translateY(6px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .os-window.open { opacity: 1; transform: scale(1) translateY(0); }
+        .os-window.minimized { transform: translateY(120vh) scale(0.4); opacity: 0; pointer-events: none; }
+        .os-window.focused { box-shadow: var(--shadow-window-focused); }
+        .window-header {
+            height: 40px; min-height: 40px;
+            background: var(--window-header-bg);
+            border-bottom: 0.5px solid var(--header-border);
+            display: flex; align-items: center; padding: 0 14px;
+            cursor: move; position: relative; border-radius: 12px 12px 0 0;
+            user-select: none;
+        }
+
+        /* ── RESIZE HANDLE ── */
+        .resize-handle {
+            position: absolute; bottom: 0; right: 0;
+            width: 14px; height: 14px; cursor: se-resize; z-index: 10;
+        }
+        .resize-handle::after {
+            content: ''; position: absolute; bottom: 3px; right: 3px;
+            width: 4px; height: 4px;
+            border-right: 2px solid rgba(0,0,0,0.25);
+            border-bottom: 2px solid rgba(0,0,0,0.25);
+        }
+        body.dark-theme .resize-handle::after {
+            border-right-color: rgba(255,255,255,0.3);
+            border-bottom-color: rgba(255,255,255,0.3);
+        }
+
+        /* ── TRAFFIC LIGHTS ── */
+        .traffic-lights { display: flex; gap: 8px; z-index: 2; flex-shrink: 0; }
+        .tl {
+            width: 13px; height: 13px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: filter 0.15s; flex-shrink: 0; position: relative;
+        }
+        .tl.close  { background: #ff5f57; border: 0.5px solid rgba(0,0,0,0.12); }
+        .tl.minbtn { background: #febc2e; border: 0.5px solid rgba(0,0,0,0.12); }
+        .tl.maxbtn { background: #28c840; border: 0.5px solid rgba(0,0,0,0.12); }
+        .tl:hover.close  { background: #e0443e; }
+        .tl:hover.minbtn { background: #d09a1a; }
+        .tl:hover.maxbtn { background: #1aab29; }
+        
+        /* macOS Hover symbols */
+        .traffic-lights:hover .tl.close::after { content: '✕'; font-size: 8px; font-weight: 700; color: #4c0000; display: flex; align-items: center; justify-content: center; }
+        .traffic-lights:hover .tl.minbtn::after { content: '−'; font-size: 8px; font-weight: 700; color: #5c3e00; display: flex; align-items: center; justify-content: center; }
+        .traffic-lights:hover .tl.maxbtn::after { content: '⤢'; font-size: 8px; font-weight: 700; color: #004c00; display: flex; align-items: center; justify-content: center; }
+        
+        .window-title {
+            position: absolute; left: 0; width: 100%; text-align: center;
+            font-size: 13px; font-weight: 600; color: var(--text-primary); pointer-events: none;
+        }
+        .window-content { flex: 1; overflow-y: auto; overflow-x: hidden; background: var(--window-chrome); position: relative; outline: none; }
+        .window-content::-webkit-scrollbar { width: 7px; }
+        .window-content::-webkit-scrollbar-track { background: transparent; }
+        .window-content::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 4px; }
+        body.dark-theme .window-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); }
+
+        /* ── PROJECTS ── */
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 16px; padding: 20px; }
+        .project-card {
+            border: 0.5px solid var(--card-border); border-radius: 10px; padding: 16px;
+            background: var(--card-bg); transition: transform 0.2s, box-shadow 0.2s; user-select: text;
+            position: relative; overflow: hidden;
+        }
+        .project-card::before {
+            content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg); transition: 0.75s; pointer-events: none;
+        }
+        .project-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+        body.dark-theme .project-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+        .project-card:hover::before { left: 150%; }
+        
+        .project-title { font-weight: 600; font-size: 15px; margin-bottom: 10px; line-height: 1.3; color: var(--text-primary); }
+        .project-stack { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+        .pill { background: var(--pill-bg); color: var(--pill-text); font-size: 11px; padding: 3px 8px; border-radius: 10px; font-weight: 500; }
+        .project-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.55; }
+        .project-filters { display: flex; gap: 10px; padding: 20px 20px 0 20px; justify-content: center; }
+        .filter-btn {
+            background: var(--pill-bg); color: var(--pill-text); border: none; padding: 6px 14px;
+            border-radius: 16px; font-size: 13px; font-weight: 500; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover { background: rgba(0,0,0,0.08); }
+        body.dark-theme .filter-btn:hover { background: rgba(255,255,255,0.08); }
+        .filter-btn.active { background: var(--accent); color: white; }
+        .project-actions { display: flex; gap: 8px; }
+        
+        .btn {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: var(--accent); color: white;
+            padding: 6px 14px; border-radius: 7px; font-size: 13px; font-weight: 500;
+            text-decoration: none; cursor: pointer; border: none;
+        }
+        .btn:hover { background: #0066dc; }
+        .btn.secondary { background: var(--pill-bg); color: var(--text-primary); }
+        .btn.secondary:hover { background: rgba(0,0,0,0.08); }
+        body.dark-theme .btn.secondary:hover { background: rgba(255,255,255,0.08); }
+
+        /* ── RESUME ── */
+        .resume-container { padding: 28px 32px; max-width: 780px; margin: 0 auto; color: var(--text-primary); user-select: text; }
+        .resume-header { text-align: center; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--card-border); }
+        .resume-name { font-size: 26px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.5px; }
+        .resume-contact { font-size: 12.5px; color: var(--text-secondary); line-height: 1.6; }
+        .resume-contact a { color: var(--accent); text-decoration: none; }
+        .resume-section { margin-bottom: 22px; }
+        .resume-section-title {
+            font-size: 11px; font-weight: 600; color: var(--accent);
+            text-transform: uppercase; letter-spacing: 0.8px;
+            border-bottom: 0.5px solid var(--card-border); padding-bottom: 5px; margin-bottom: 12px;
+        }
+        .resume-item { margin-bottom: 14px; }
+        .resume-item-header { display: flex; justify-content: space-between; font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+        .resume-item-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 5px; }
+        .resume-desc { font-size: 13px; line-height: 1.65; }
+        .resume-desc ul { padding-left: 18px; }
+        .resume-desc li { margin-bottom: 5px; }
+
+        /* ── TERMINAL ── */
+        .terminal-outer { background: var(--terminal-bg) !important; height: 100%; display: flex; flex-direction: column; }
+        #term-output {
+            flex: 1; padding: 14px 16px 0; font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 13px; line-height: 1.6; color: var(--terminal-text);
+            white-space: pre-wrap; overflow-y: auto; user-select: text;
+        }
+        #term-output::-webkit-scrollbar { width: 6px; }
+        #term-output::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+        .term-input-row {
+            display: flex; align-items: center; padding: 8px 16px 14px;
+            font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+        }
+        .term-prompt { font-size: 13px; color: var(--terminal-text); white-space: nowrap; margin-right: 8px; }
+        #term-input {
+            flex: 1; background: transparent; border: none; color: var(--terminal-text);
+            font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 13px; outline: none; caret-color: var(--terminal-text);
+        }
+        .term-user { color: #64d2ff; }
+        .term-host { color: #30d158; }
+        .term-path { color: #ffd60a; }
+
+        /* ── ABOUT ── */
+        .textedit-outer { height: 100%; display: flex; flex-direction: column; }
+        .textedit-toolbar {
+            height: 36px; background: var(--window-header-bg); border-bottom: 0.5px solid var(--card-border);
+            display: flex; align-items: center; padding: 0 12px; gap: 8px;
+        }
+        .textedit-fmt-btn {
+            width: 26px; height: 22px; border: 0.5px solid var(--card-border); border-radius: 4px;
+            background: var(--window-chrome); cursor: pointer; font-size: 12px; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; color: var(--text-primary);
+        }
+        .textedit-content {
+            flex: 1; font-family: 'Courier New', monospace; padding: 20px 24px;
+            font-size: 14px; line-height: 1.7; white-space: pre-wrap;
+            overflow-y: auto; user-select: text; background: var(--window-chrome); color: var(--text-primary);
+        }
+
+        /* ── CONTACT ── */
+        .contact-outer { padding: 30px; user-select: text; }
+        .contact-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 0.5px solid var(--card-border); }
+        .contact-avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #007AFF, #5856D6); color: white; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; flex-shrink: 0; }
+        .contact-header-text h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 3px; }
+        .contact-header-text p { font-size: 13px; color: var(--text-secondary); }
+        .contact-rows { display: flex; flex-direction: column; gap: 14px; }
+        .contact-row { display: flex; align-items: center; gap: 12px; }
+        .contact-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .contact-icon.mail { background: rgba(255, 59, 48, 0.12); color: #ff3b30; }
+        .contact-icon.phone { background: rgba(52, 199, 89, 0.12); color: #34c759; }
+        .contact-icon.github { background: rgba(88, 86, 214, 0.12); color: #5856D6; }
+        .contact-icon.linkedin { background: rgba(0, 122, 255, 0.12); color: #007AFF; }
+        .contact-row-text label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); display: block; margin-bottom: 1px; }
+        .contact-row-text a, .contact-row-text span { font-size: 14px; color: var(--accent); text-decoration: none; font-weight: 500; }
+        .contact-row-text span { color: var(--text-primary); }
+        .contact-note { margin-top: 24px; font-size: 13px; color: var(--text-secondary); padding: 14px 16px; background: var(--card-bg); border-radius: 10px; line-height: 1.5; border: 0.5px solid var(--card-border); }
+
+        /* ── ACHIEVEMENTS ── */
+        .achievements-outer { padding: 20px; user-select: text; }
+        .ach-item { display: flex; gap: 14px; margin-bottom: 18px; }
+        .ach-icon-wrap { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+        .ach-icon-wrap.gold { background: #fff8e6; }
+        .ach-icon-wrap.silver { background: #f0f0f5; }
+        .ach-icon-wrap.sport { background: #e8f4ff; }
+        body.dark-theme .ach-icon-wrap { background: rgba(255,255,255,0.06); }
+        .ach-body { flex: 1; }
+        .ach-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; color: var(--text-primary); }
+        .ach-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+        .ach-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 6px; margin-bottom: 5px; }
+        .ach-badge.gold { background: #fff0c0; color: #8a6400; }
+        .ach-badge.silver { background: #e8e8f0; color: #505060; }
+        .ach-badge.sport { background: #daeeff; color: #005a9e; }
+
+        /* ── EASTER EGG ── */
+        .egg-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 30px; text-align: center; user-select: text; }
+
+        /* ── SKILLS WINDOW ── */
+        .skills-outer { padding: 20px; user-select: text; }
+        .skill-category { margin-bottom: 20px; }
+        .skill-cat-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--accent); margin-bottom: 8px; }
+        .skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+        .skill-pill { font-size: 13px; padding: 5px 12px; border-radius: 10px; font-weight: 500; border: 0.5px solid transparent; }
+        
+        .skill-pill.languages { background: rgba(0, 122, 255, 0.1); color: #007AFF; border-color: rgba(0, 122, 255, 0.15); }
+        .skill-pill.frontend { background: rgba(52, 199, 89, 0.1); color: #34c759; border-color: rgba(52, 199, 89, 0.15); }
+        .skill-pill.backend { background: rgba(175, 82, 222, 0.1); color: #af52de; border-color: rgba(175, 82, 222, 0.15); }
+        .skill-pill.databases { background: rgba(255, 149, 0, 0.1); color: #ff9500; border-color: rgba(255, 149, 0, 0.15); }
+        .skill-pill.cloud-tools { background: rgba(255, 45, 85, 0.1); color: #ff2d55; border-color: rgba(255, 45, 85, 0.15); }
+        
+        body.dark-theme .skill-pill.languages { background: rgba(10, 132, 255, 0.15); color: #409cff; }
+        body.dark-theme .skill-pill.frontend { background: rgba(48, 209, 88, 0.15); color: #5ad876; }
+        body.dark-theme .skill-pill.backend { background: rgba(191, 90, 242, 0.15); color: #c67af2; }
+        body.dark-theme .skill-pill.databases { background: rgba(255, 159, 10, 0.15); color: #ffab40; }
+        body.dark-theme .skill-pill.cloud-tools { background: rgba(255, 69, 58, 0.15); color: #ff6e66; }
+
+        /* ── WALLPAPER PICKER (personalization) ── */
+        #wallpaper-picker {
+            position: fixed; top: 42px; left: 50%; transform: translateX(-50%);
+            background: var(--dropdown-bg); backdrop-filter: blur(20px);
+            border: 0.5px solid var(--dropdown-border); border-radius: 14px;
+            padding: 18px 20px; z-index: 99000; display: none;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+            width: 350px;
+            color: var(--text-primary);
+            font-size: 13px;
+            user-select: none;
+        }
+        #wallpaper-picker h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px; border-bottom: 0.5px solid var(--card-border); padding-bottom: 6px; }
+        .wp-section-title { font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin: 12px 0 8px 0; }
+        .wp-swatches { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+        .wp-swatch {
+            width: 42px; height: 42px; border-radius: 8px; cursor: pointer;
+            border: 2px solid transparent; transition: border-color 0.15s, transform 0.15s;
+        }
+        .wp-swatch:hover { transform: scale(1.05); }
+        .wp-swatch.active { border-color: var(--accent); }
+        
+        .wp-custom-panel { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; padding-top: 8px; border-top: 0.5px solid var(--card-border); }
+        .wp-input-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .wp-input-row label { font-weight: 500; font-size: 12px; color: var(--text-primary); }
+        .wp-text-input {
+            flex: 1; background: var(--card-bg); border: 0.5px solid var(--card-border);
+            color: var(--text-primary); padding: 4px 8px; border-radius: 6px; font-size: 12px; outline: none;
+        }
+        .wp-select {
+            background: var(--card-bg); border: 0.5px solid var(--card-border);
+            color: var(--text-primary); padding: 4px 6px; border-radius: 6px; font-size: 12px; outline: none; cursor: pointer;
+        }
+        .wp-color-picker-wrap { display: flex; align-items: center; gap: 8px; }
+        .wp-color-picker {
+            border: none; width: 28px; height: 24px; padding: 0; background: none; cursor: pointer; border-radius: 4px;
+        }
+        .wp-color-presets { display: flex; gap: 6px; }
+        .wp-color-preset {
+            width: 18px; height: 18px; border-radius: 50%; cursor: pointer; border: 1px solid rgba(0,0,0,0.15);
+        }
+        body.dark-theme .wp-color-preset { border-color: rgba(255,255,255,0.2); }
+        
+        .wp-file-btn {
+            background: var(--accent); color: white; border: none; padding: 5px 12px;
+            border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; text-align: center;
+        }
+        .wp-file-btn:hover { background: #0066dc; }
+        .wp-file-input { display: none; }
+        
+        .wp-checkbox-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+        .wp-checkbox-row input { cursor: pointer; }
+        .wp-checkbox-row label { font-size: 12px; cursor: pointer; }
+        
+        .wp-btn-row { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; border-top: 0.5px solid var(--card-border); padding-top: 10px; }
+        .wp-close-btn {
+            background: var(--pill-bg); color: var(--text-primary); border: 0.5px solid var(--card-border);
+            padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer;
+        }
+        .wp-close-btn:hover { background: rgba(0,0,0,0.08); }
+        body.dark-theme .wp-close-btn:hover { background: rgba(255,255,255,0.08); }
+
+        /* ── MOBILE ── */
+        #mobile-view { display: none; width: 100%; min-height: 100vh; overflow-y: auto; background: var(--window-chrome); color: var(--text-primary); }
+        .mob-hero { background: linear-gradient(160deg, #0f0f12, #1a1a2e); color: white; padding: 50px 24px 40px; text-align: center; }
+        .mob-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg,#007AFF,#5856D6); color: white; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 700; margin: 0 auto 16px; }
+        .mob-name { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+        .mob-tagline { font-size: 16px; color: rgba(255,255,255,0.65); margin-bottom: 6px; }
+        .mob-role { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 28px; }
+        .mob-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .mob-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            min-height: 44px; padding: 0 20px; border-radius: 10px;
+            font-size: 14px; font-weight: 600; text-decoration: none;
+        }
+        .mob-btn.primary { background: var(--accent); color: white; }
+        .mob-btn.dark { background: rgba(255,255,255,0.1); color: white; border: 0.5px solid rgba(255,255,255,0.2); }
+        
+        .mob-section { padding: 28px 20px; border-bottom: 0.5px solid var(--card-border); background: var(--window-chrome); }
+        .mob-section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 18px; }
+        .mob-card { border: 0.5px solid var(--card-border); border-radius: 12px; padding: 16px; margin-bottom: 14px; background: var(--card-bg); }
+        .mob-card-title { font-weight: 600; font-size: 15px; margin-bottom: 8px; }
+        .mob-contact-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; font-size: 14px; }
+        .mob-contact-row a { color: var(--accent); text-decoration: none; }
+
+        /* ── TABLET BREAKPOINT (768px - 1024px) ── */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .desktop-icon { width: 68px; }
+            .desktop-icon span { font-size: 11px; }
+            .icon-img { width: 44px; height: 44px; }
+            #dock-container { bottom: 8px; }
+            .dock-btn { width: 40px; height: 40px; }
+            .os-window { min-width: 350px; min-height: 240px; }
+        }
+
+        @media (max-width: 767px) {
+            body { overflow: auto; }
+            #desktop-view, #boot-screen { display: none !important; }
+            #mobile-view { display: block; }
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #resume-print-area, #resume-print-area * { visibility: visible; }
+            #resume-print-area { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- BOOT SCREEN -->
+<div id="boot-screen">
+    <div class="boot-avatar">ABK</div>
+    <div class="boot-name">Aakash Buddha Kannan</div>
+    <div class="boot-tagline">Building things that ship.</div>
+    <div class="progress-bar-container"><div class="progress-bar" id="boot-progress"></div></div>
+</div>
+
+<!-- DESKTOP VIEW -->
+<div id="desktop-view">
+    <!-- Menubar -->
+    <div id="menubar">
+        <div class="menubar-left">
+            <div class="menubar-item brand" id="mb-brand" role="button" aria-haspopup="true">
+                ⌘ Personal OS
+                <div class="dropdown">
+                    <div class="dropdown-item" onclick="showAbout()">About This Portfolio</div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" onclick="openApp('skills')">Skills</div>
+                    <div class="dropdown-item" onclick="openApp('contact')">Contact</div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" onclick="showWallpaperPicker()">Change Wallpaper</div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item disabled">Version 1.1.0</div>
+                </div>
+            </div>
+            <div class="menubar-item" id="mb-file" role="button" aria-haspopup="true">
+                File
+                <div class="dropdown">
+                    <div class="dropdown-item" onclick="openApp('projects')">Open Projects</div>
+                    <div class="dropdown-item" onclick="openApp('resume')">Open Resume</div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" onclick="downloadResume()">Download Resume (PDF)</div>
+                    <div class="dropdown-item" onclick="printResume()">Print Resume…</div>
+                </div>
+            </div>
+            <div class="menubar-item" id="mb-edit" role="button" aria-haspopup="true">
+                Edit
+                <div class="dropdown">
+                    <div class="dropdown-item disabled">Undo <span style="color:var(--text-secondary);font-size:12px">⌘Z</span></div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" onclick="copyEmail()">Copy Email Address</div>
+                    <div class="dropdown-item" onclick="window.open('https://github.com/Aakashxnoir','_blank')">Open GitHub</div>
+                </div>
+            </div>
+            <div class="menubar-item" id="mb-view" role="button" aria-haspopup="true">
+                View
+                <div class="dropdown">
+                    <div class="dropdown-item" onclick="openApp('projects')">Projects</div>
+                    <div class="dropdown-item" onclick="openApp('about')">About Me</div>
+                    <div class="dropdown-item" onclick="openApp('achievements')">Achievements</div>
+                    <div class="dropdown-item" onclick="openApp('terminal')">Terminal</div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item" onclick="closeAllWindows()">Close All Windows</div>
+                </div>
+            </div>
+            <div class="menubar-item" id="mb-help" role="button" aria-haspopup="true">
+                Help
+                <div class="dropdown">
+                    <div class="dropdown-item" onclick="openApp('terminal')">Open Terminal</div>
+                    <div class="dropdown-separator"></div>
+                    <div class="dropdown-item disabled">Try: type "neofetch" in Terminal</div>
+                    <div class="dropdown-item disabled">Try: Konami Code ↑↑↓↓←→←→BA</div>
+                </div>
+            </div>
+        </div>
+        <div class="menubar-right">
+            <span id="theme-toggle" style="cursor:pointer;margin-right:8px;" onclick="toggleTheme()" title="Toggle Dark Mode" role="button" aria-label="Toggle dark mode">🌙</span>
+            <span id="clock">--:--</span>
+        </div>
+    </div>
+
+    <!-- Desktop Icons -->
+    <div id="desktop-icons"></div>
+
+    <!-- Wallpaper Picker -->
+    <div id="wallpaper-picker">
+        <h3>Wallpaper Settings</h3>
+        
+        <div class="wp-section-title">Presets</div>
+        <div class="wp-swatches" id="wp-swatches"></div>
+        
+        <div class="wp-section-title">Custom Image / GIF</div>
+        <div class="wp-custom-panel">
+            <div class="wp-input-row">
+                <label>Source:</label>
+                <label class="wp-file-btn" for="wp-file-upload">Choose Image/GIF</label>
+                <input type="file" id="wp-file-upload" class="wp-file-input" accept="image/*" onchange="handleWallpaperUpload(event)">
+                <span id="wp-file-name" style="font-size:11px;color:var(--text-secondary);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">No file chosen</span>
+            </div>
+            
+            <div class="wp-input-row" style="margin: 2px 0;">
+                <span style="font-size:10px;color:var(--text-secondary);width:100%;text-align:center;">— OR —</span>
+            </div>
+            
+            <div class="wp-input-row">
+                <label for="wp-url-input">URL:</label>
+                <input type="text" id="wp-url-input" class="wp-text-input" placeholder="Paste image/GIF link..." oninput="handleWallpaperUrlChange(this.value)">
+            </div>
+            
+            <div class="wp-input-row">
+                <label for="wp-size-select">Display:</label>
+                <select id="wp-size-select" class="wp-select" onchange="handleWallpaperSizeChange(this.value)">
+                    <option value="cover">Cover (Fill Screen)</option>
+                    <option value="contain">Contain (Fit Screen)</option>
+                    <option value="center">Center (Actual Size)</option>
+                    <option value="tile">Tile (Repeat)</option>
+                </select>
+            </div>
+            
+            <div class="wp-input-row">
+                <label>Background:</label>
+                <div class="wp-color-picker-wrap">
+                    <div class="wp-color-presets">
+                        <div class="wp-color-preset" style="background:#000000" title="Black" onclick="handleWallpaperColorPreset('#000000')"></div>
+                        <div class="wp-color-preset" style="background:#1e1e1e" title="Charcoal" onclick="handleWallpaperColorPreset('#1e1e1e')"></div>
+                        <div class="wp-color-preset" style="background:#4a4a4a" title="Grey" onclick="handleWallpaperColorPreset('#4a4a4a')"></div>
+                        <div class="wp-color-preset" style="background:#007AFF" title="Accent Blue" onclick="handleWallpaperColorPreset('#007AFF')"></div>
+                        <div class="wp-color-preset" style="background:#ffffff" title="White" onclick="handleWallpaperColorPreset('#ffffff')"></div>
+                    </div>
+                    <input type="color" id="wp-color-input" class="wp-color-picker" onchange="handleWallpaperColorChange(this.value)">
+                </div>
+            </div>
+        </div>
+        
+        <div class="wp-checkbox-row">
+            <input type="checkbox" id="wp-starfield-checkbox" onchange="handleStarfieldChange(this.checked)">
+            <label for="wp-starfield-checkbox">Enable Starfield Overlay</label>
+        </div>
+        
+        <div class="wp-btn-row">
+            <button class="wp-close-btn" onclick="showWallpaperPicker()">Done</button>
+        </div>
+    </div>
+
+    <!-- Windows -->
+    <div id="window-container"></div>
+
+    <!-- Dock -->
+    <div id="dock-container"><div id="dock"></div></div>
+</div>
+
+<!-- MOBILE VIEW -->
+<div id="mobile-view">
+    <header class="mob-hero">
+        <div class="mob-avatar">ABK</div>
+        <h1 class="mob-name">Aakash Buddha Kannan</h1>
+        <p class="mob-tagline">Building things that ship.</p>
+        <p class="mob-role">CS Undergraduate · Chennai, India · Seeking Internship</p>
+        <div class="mob-btns">
+            <a href="mailto:aakashb.kannan@gmail.com" class="mob-btn primary">Email Me</a>
+            <a href="Aakash_resume.pdf" download="Aakash_Buddha_Kannan_Resume.pdf" class="mob-btn dark">Download Resume</a>
+            <a href="https://github.com/Aakashxnoir" target="_blank" class="mob-btn dark">GitHub</a>
+            <a href="https://linkedin.com/in/aakashbuddhakannan" target="_blank" class="mob-btn dark">LinkedIn</a>
+        </div>
+    </header>
+
+    <section class="mob-section">
+        <h2 class="mob-section-title">About Me</h2>
+        <p style="font-size:14px;line-height:1.7;color:var(--text-secondary);">
+            Hey, I'm Aakash — a first-year CS undergrad at RIT Chennai building production-ready full-stack applications.<br><br>
+            Won 1st place at Designathon 2025, competed in 10+ hackathons, and represent my college in volleyball. Editor at the Women's Empowerment Club, RIT.<br><br>
+            Seeking a software development internship to contribute to real-world engineering challenges.
+        </p>
+    </section>
+
+    <section class="mob-section">
+        <h2 class="mob-section-title">Projects</h2>
+        <div id="mob-projects"></div>
+    </section>
+
+    <section class="mob-section">
+        <h2 class="mob-section-title">Skills</h2>
+        <div id="mob-skills"></div>
+    </section>
+
+    <section class="mob-section">
+        <h2 class="mob-section-title">Achievements</h2>
+        <div id="mob-achievements"></div>
+    </section>
+
+    <section class="mob-section">
+        <h2 class="mob-section-title">Contact</h2>
+        <div class="mob-contact-row">📧 <a href="mailto:aakashb.kannan@gmail.com">aakashb.kannan@gmail.com</a></div>
+        <div class="mob-contact-row">📱 <span class="phone-val">902 ••• •••• <span style="font-size:11px;cursor:pointer;color:var(--accent);text-decoration:underline" onclick="revealPhone(event)">Show</span></span></div>
+        <div class="mob-contact-row">🐙 <a href="https://github.com/Aakashxnoir" target="_blank">github.com/Aakashxnoir</a></div>
+        <div class="mob-contact-row">💼 <a href="https://linkedin.com/in/aakashbuddhakannan" target="_blank">linkedin.com/in/aakashbuddhakannan</a></div>
+        <p style="margin-top:12px;font-size:13px;color:var(--text-secondary);padding:12px;background:var(--card-bg);border-radius:10px;border:0.5px solid var(--card-border);">Seeking a software development internship. Open to collaborations — let's build something great.</p>
+    </section>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────
+const RESUME_PDF = 'Aakash_resume.pdf';
+
+const PROJECTS = [
+  {
+    title: 'GfG Campus Club Website',
+    stack: ['React', 'Vite', 'TypeScript', 'Tailwind CSS v4', 'Firebase'],
+    desc: 'Built the official 9+ route React + Vite (TypeScript) SPA for RIT\'s GfG Campus Club with global search, dark mode, leaderboards, and gamification; architected with Firebase/Firestore and optional Gemini AI integration.',
+    link: 'https://github.com/Aakashxnoir/Geeks-for-Geeks-',
+    live: 'https://geeks-for-geeks-delta.vercel.app',
+    category: 'fullstack',
+    period: '2025 – Present',
+    onResume: true
+  },
+  {
+    title: 'CONDuit — Skill Exchange Platform',
+    stack: ['React 18', 'TypeScript', 'Redux Toolkit', 'Flask', 'Tailwind CSS', 'Celery', 'Redis'],
+    desc: 'Full-stack peer-to-peer skill marketplace with swap request workflows, ratings, and GitHub OAuth; Redux Toolkit state management, WCAG-compliant accessibility, and async task processing via Celery and Redis.',
+    link: 'https://github.com/Aakashxnoir/NBOS-Skill-swap-',
+    live: null,
+    category: 'fullstack',
+    period: '2024 – Present',
+    onResume: true
+  },
+  {
+    title: 'College Productivity OS',
+    stack: ['Python', 'Flask', 'SQLite/MySQL'],
+    desc: 'Student dashboard for task management, assignment tracking, and deadline monitoring; normalized relational database schema with Flask ORM and role-based views.',
+    link: 'https://github.com/Aakashxnoir/College-Productivity-OS-',
+    live: null,
+    category: 'fullstack',
+    period: '2024 – Present',
+    onResume: true
+  },
+  {
+    title: 'Life Tracker',
+    stack: ['React', 'Vite', 'Tailwind CSS', 'Firebase', 'Firestore'],
+    desc: 'Personal habit and focus tracker with Google sign-in, Firestore sync, and storage — built for real daily use.',
+    link: 'https://github.com/Aakashxnoir/life-tracker',
+    live: null,
+    category: 'fullstack'
+  },
+  {
+    title: 'Sevagan — Multilingual Service App',
+    stack: ['JavaScript', 'React', 'Node.js'],
+    desc: 'Multilingual service platform connecting users across language barriers — one of the larger apps in my portfolio at 150MB+.',
+    link: 'https://github.com/Aakashxnoir/Sevagan---Multilingual-Service-app',
+    live: null,
+    category: 'fullstack'
+  },
+  {
+    title: 'Student Library Management',
+    stack: ['Java', 'Spring Boot', 'Thymeleaf', 'H2 Database'],
+    desc: 'Full-stack Java library system with admin and student roles, book management, and borrowing workflows using Spring Boot MVC.',
+    link: 'https://github.com/Aakashxnoir/Student-Library-management-',
+    live: null,
+    category: 'fullstack'
+  },
+  {
+    title: 'Irrumbu Kottai Pallupudingi',
+    stack: ['Godot 4', 'GDScript'],
+    desc: '2D action platformer with a Finite State Machine for enemy AI and a Predictive Pattern boss AI featuring phase transitions, combo system, and lunge mechanic; DRY architecture with centralized damage handling and shader-based UI.',
+    link: null,
+    live: null,
+    category: 'game',
+    period: '2026 – Present',
+    onResume: true
+  },
+  {
+    title: 'Dungeons & Dragons',
+    stack: ['Godot 4', 'GDScript'],
+    desc: 'First original game — hero trapped in a dungeon forced to defeat a boss. Classic dungeon crawler built from scratch.',
+    link: 'https://github.com/Aakashxnoir/Dungeons-and-dragons-',
+    live: null,
+    category: 'game'
+  },
+  {
+    title: 'Naruto Dodge Game',
+    stack: ['Python', 'Pygame'],
+    desc: 'Anime-inspired arcade dodge game — one of my first Python game projects, built for fun and learning Pygame fundamentals.',
+    link: 'https://github.com/Aakashxnoir/Naruto-Dodge-Game-',
+    live: null,
+    category: 'game'
+  }
+];
+
+const SKILLS = [
+    { cat: 'Languages', class: 'languages', items: ['Python','Java','TypeScript','JavaScript','C/C++','SQL','HTML/CSS'] },
+    { cat: 'Frontend', class: 'frontend', items: ['React 18','Vite','Tailwind CSS','Redux Toolkit','React Hook Form','React Router'] },
+    { cat: 'Backend', class: 'backend', items: ['Flask','Spring Boot','FastAPI','Node.js','JWT Auth','Celery','Redis'] },
+    { cat: 'Databases', class: 'databases', items: ['MySQL','SQLite','MongoDB','Firebase/Firestore'] },
+    { cat: 'Cloud & Tools', class: 'cloud-tools', items: ['AWS','Docker','Vercel','Render','Git','Maven','Godot 4','IntelliJ','VS Code'] }
+];
+
+const ACHIEVEMENTS = [
+    { emoji: '🥇', badge: 'gold', badgeText: '1st Place', title: 'Designathon 2025 — RIT Digital Twin', desc: 'Won 1st place delivering a production-ready smart campus platform — JWT auth, role-based access for 5 user types, timetable generation with PDF export, and classroom booking. Stack: React, Spring Boot (Java 21), MySQL 8, Docker; deployed on Vercel and Render with full CI/CD.' },
+    { emoji: '🥇', badge: 'gold', badgeText: '1st Place', title: 'Grand Prix F1 Gaming Tournament — Apr 2026', desc: 'Gamathon by Revolution Games (Apr 9–11, 2026). Won 1st place in a 3-day competitive F1 gaming tournament — strategic decision-making, composure, and consistency under pressure.' },
+    { emoji: '🏆', badge: 'silver', badgeText: 'Participant', title: 'Hack The Horizon 2.0 — VIT Chennai', desc: '24-hour inter-institutional hackathon, AI Club, VIT Chennai (Aug 2025). Built and presented a functional prototype in 24 hours at a competitive inter-institutional event.' },
+    { emoji: '🏐', badge: 'sport', badgeText: 'Inter-College', title: 'Volleyball — Competitive Spiker', desc: 'Represented college in inter-college competitive matches; developed discipline and team coordination.' }
+];
+
+// App icon SVGs (pure inline SVG, no <use> — guaranteed to render)
+function iconSVG(type) {
+    const icons = {
+        projects: `<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="14" width="44" height="30" rx="4" fill="#3399FF"/>
+            <path d="M4 14h16l4-6h20a4 4 0 014 4v2H4v-2a4 4 0 000 0z" fill="#80BFFF"/>
+            <rect x="4" y="14" width="44" height="30" rx="4" fill="#3399FF"/>
+            <path d="M4 18h44v22a4 4 0 01-4 4H8a4 4 0 01-4-4V18z" fill="#3399FF"/>
+            <path d="M4 14h14l3-4h17a4 4 0 014 4H4z" fill="#80BFFF"/>
+        </svg>`,
+        resume: `<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="4" width="30" height="40" rx="3" fill="white" stroke="#d0d0d8" stroke-width="1"/>
+            <path d="M30 4v12h8" fill="#eaeaf0" stroke="#d0d0d8" stroke-width="1"/>
+            <path d="M30 4l8 12H30V4z" fill="#e0e0e8"/>
+            <rect x="13" y="21" width="20" height="1.5" rx="0.75" fill="#c0c0c8"/>
+            <rect x="13" y="26" width="20" height="1.5" rx="0.75" fill="#c0c0c8"/>
+            <rect x="13" y="31" width="14" height="1.5" rx="0.75" fill="#c0c0c8"/>
+            <rect x="8" y="4" width="6" height="6" rx="1" fill="#ff3b30"/>
+            <text x="11" y="10.5" font-family="Arial" font-size="5.5" font-weight="800" fill="white" text-anchor="middle">CV</text>
+        </svg>`,
+        terminal: `<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="6" width="46" height="38" rx="5" fill="#1a1a1c"/>
+            <rect x="3" y="6" width="46" height="14" rx="5" fill="#2c2c2e"/>
+            <rect x="3" y="16" width="46" height="4" fill="#2c2c2e"/>
+            <circle cx="11" cy="13" r="3" fill="#ff5f57"/>
+            <circle cx="20" cy="13" r="3" fill="#febc2e"/>
+            <circle cx="29" cy="13" r="3" fill="#28c840"/>
+            <path d="M10 27l7 5-7 5" stroke="#30d158" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <rect x="20" y="35" width="10" height="2" rx="1" fill="#30d158"/>
+        </svg>`,
+        about: `<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="4" width="42" height="44" rx="4" fill="white" stroke="#d0d0d8" stroke-width="1"/>
+            <rect x="5" y="4" width="42" height="10" rx="4" fill="#f5f5f7"/>
+            <rect x="5" y="10" width="42" height="4" fill="#f5f5f7"/>
+            <rect x="14" y="7" width="24" height="1.5" rx="0.75" fill="#c8c8d0"/>
+            <rect x="11" y="20" width="30" height="1.5" rx="0.75" fill="#c0c0c8"/>
+            <rect x="11" y="25" width="30" height="1.5" rx="0.75" fill="#c0c0c8"/>
+            <rect x="11" y="30" width="24" height="1.5" rx="0.75" fill="#c0c0c8"/>
+            <rect x="11" y="35" width="28" height="1.5" rx="0.75" fill="#c0c0c8"/>
+            <rect x="11" y="40" width="18" height="1.5" rx="0.75" fill="#c0c0c8"/>
+        </svg>`,
+        contact: `<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="10" width="44" height="30" rx="5" fill="#4dabf7"/>
+            <rect x="4" y="10" width="44" height="30" rx="5" fill="url(#mailgrad)"/>
+            <path d="M4 15l22 14 22-14" stroke="white" stroke-width="2.5" stroke-linejoin="round" fill="none"/>
+            <defs><linearGradient id="mailgrad" x1="4" y1="10" x2="48" y2="40" gradientUnits="userSpaceOnUse"><stop stop-color="#1a8fe3"/><stop offset="1" stop-color="#4dabf7"/></linearGradient></defs>
+        </svg>`,
+        achievements: `<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 8h24v14a12 12 0 01-24 0V8z" fill="#ffd43b"/>
+            <path d="M20 30v8h12v-8" fill="#f0b800"/>
+            <rect x="16" y="40" width="20" height="3" rx="1.5" fill="#e6a800"/>
+            <path d="M8 10c-4 0-4 6-4 8s4 6 6 6V10z" fill="#ffd43b"/>
+            <path d="M44 10c4 0 4 6 4 8s-4 6-6 6V10z" fill="#ffd43b"/>
+            <circle cx="26" cy="20" r="5" fill="rgba(255,255,255,0.6)"/>
+        </svg>`,
+        skills: `<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="4" width="44" height="44" rx="10" fill="url(#skill-grad)"/>
+            <path d="M26 14L12 21L26 28L40 21L26 14Z" fill="white" fill-opacity="0.95"/>
+            <path d="M12 27L26 34L40 27" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.8"/>
+            <path d="M12 33L26 40L40 33" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.6"/>
+            <defs>
+                <linearGradient id="skill-grad" x1="4" y1="4" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#FF2D55"/>
+                    <stop offset="1" stop-color="#FF375F"/>
+                </linearGradient>
+            </defs>
+        </svg>`,
+        easteregg: `<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="26" cy="26" r="22" fill="#1a1a1c"/>
+            <text x="26" y="34" font-size="22" text-anchor="middle">🎮</text>
+        </svg>`
+    };
+    return icons[type] || icons.about;
+}
+
+const APPS = [
+    { id:'projects',    label:'Projects',    width:720, height:520 },
+    { id:'resume',      label:'Resume',      width:800, height:600 },
+    { id:'terminal',    label:'Terminal',    width:620, height:420 },
+    { id:'about',       label:'About',       width:500, height:460 },
+    { id:'contact',     label:'Contact',     width:420, height:460 },
+    { id:'achievements',label:'Awards',      width:520, height:420 },
+    { id:'skills',      label:'Skills',      width:500, height:440 },
+    { id:'easteregg',   label:'???',         width:360, height:260, hidden:true }
+];
+
+// ── WALLPAPERS ────────────────────────────────────────
+const WALLPAPERS = [
+    { name:'Bliss',         bg:'url(\'./25aa1a16b78d63f639b04b8427d4f2d6.jpg\') center/cover no-repeat' },
+    { name:'Starfield (CSS)', bg:'radial-gradient(ellipse at 50% 50%, #1a2235 0%, #0d111a 100%)' },
+    { name:'Sunset Glow',   bg:'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%), linear-gradient(to top, #f43f5e 0%, #f97316 100%)' },
+    { name:'Aurora',        bg:'linear-gradient(to bottom, #051937, #004d7a, #008793, #00bf72, #a8eb12)' }
+];
+
+// ── STATE ─────────────────────────────────────────────
+let highestZ = 100;
+let openWindows = {};
+let activeInteraction = null; // Centralized Drag & Resize System
+let phoneRevealed = false;
+let terminalInitialised = false;
+
+// ── PHONE REVEAL ──────────────────────────────────────
+function getPhoneDisplay(full = false) {
+    if (full || phoneRevealed) {
+        return '<a href="tel:9025649618">9025649618</a>';
+    }
+    return '902 ••• •••• <span style="font-size:11px;cursor:pointer;color:var(--accent);text-decoration:underline" onclick="revealPhone(event)">Show</span>';
+}
+
+function revealPhone(e) {
+    if (e) e.stopPropagation();
+    phoneRevealed = true;
+    document.querySelectorAll('.phone-val').forEach(el => {
+        el.innerHTML = '<a href="tel:9025649618">9025649618</a>';
+    });
+}
+
+// ── BOOT ──────────────────────────────────────────────
+window.addEventListener('load', () => {
+    if (window.innerWidth <= 767) {
+        document.getElementById('boot-screen').style.display = 'none';
+        populateMobile();
+        return;
+    }
+
+    setTimeout(() => { document.getElementById('boot-progress').style.width = '100%'; }, 80);
+    setTimeout(() => {
+        const bs = document.getElementById('boot-screen');
+        bs.style.opacity = '0';
+        setTimeout(() => { bs.style.display = 'none'; initDesktop(); }, 600);
+    }, 2400);
+});
+
+// ── INIT DESKTOP ──────────────────────────────────────
+function initDesktop() {
+    updateClock();
+    setInterval(updateClock, 1000);
+    buildDesktopIcons();
+    buildDock();
+    buildWallpaperPicker();
+    closeDDOnOutsideClick();
+    initDockMagnification();
+
+    // Centralized Mouse Handlers to prevent memory leaks
+    document.addEventListener('mousemove', (e) => {
+        if (!activeInteraction) return;
+
+        if (activeInteraction.type === 'drag') {
+            const dx = e.clientX - activeInteraction.startX;
+            const dy = e.clientY - activeInteraction.startY;
+            let newLeft = activeInteraction.origLeft + dx;
+            let newTop = activeInteraction.origTop + dy;
+
+            // Clamping window drag boundaries
+            newTop = Math.max(28, Math.min(window.innerHeight - 40, newTop));
+            newLeft = Math.max(-activeInteraction.target.offsetWidth + 80, Math.min(window.innerWidth - 80, newLeft));
+
+            activeInteraction.target.style.left = newLeft + 'px';
+            activeInteraction.target.style.top = newTop + 'px';
+        } else if (activeInteraction.type === 'resize') {
+            const dx = e.clientX - activeInteraction.startX;
+            const dy = e.clientY - activeInteraction.startY;
+            let newWidth = Math.max(400, activeInteraction.origWidth + dx);
+            let newHeight = Math.max(280, activeInteraction.origHeight + dy);
+
+            activeInteraction.target.style.width = newWidth + 'px';
+            activeInteraction.target.style.height = newHeight + 'px';
+        } else if (activeInteraction.type === 'icon-drag') {
+            const dx = e.clientX - activeInteraction.startX;
+            const dy = e.clientY - activeInteraction.startY;
+            if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+                activeInteraction.hasDragged = true;
+            }
+            if (activeInteraction.hasDragged) {
+                let newLeft = Math.max(0, Math.min(window.innerWidth - 76, activeInteraction.origLeft + dx));
+                let newTop = Math.max(0, Math.min(window.innerHeight - 80, activeInteraction.origTop + dy));
+                activeInteraction.target.style.left = newLeft + 'px';
+                activeInteraction.target.style.top = newTop + 'px';
+            }
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (!activeInteraction) return;
+
+        if (activeInteraction.type === 'icon-drag' && !activeInteraction.hasDragged) {
+            openApp(activeInteraction.id);
+        }
+        if (activeInteraction.target) {
+            activeInteraction.target.style.transition = '';
+        }
+        activeInteraction = null;
+    });
+
+    // Global Key Events (Shortcuts)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const picker = document.getElementById('wallpaper-picker');
+            if (picker) picker.style.display = 'none';
+            const toast = document.getElementById('about-toast');
+            if (toast) toast.remove();
+        }
+
+        // Cmd/Ctrl + W (Close focused window)
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'w') {
+            const focused = document.querySelector('.os-window.focused');
+            if (focused) {
+                const appEntry = Object.entries(openWindows).find(([id, w]) => w.el === focused);
+                if (appEntry) {
+                    e.preventDefault();
+                    closeApp(appEntry[0]);
+                }
+            }
+        }
+    });
+
+    // Initial theme check
+    const themeToggle = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('personal-os-theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.body.classList.add('dark-theme');
+        if (themeToggle) themeToggle.textContent = '☀️';
+    }
+}
+
+// ── DARK MODE TOGGLE ──────────────────────────────────
+function toggleTheme() {
+    const isDark = document.body.classList.toggle('dark-theme');
+    document.getElementById('theme-toggle').textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('personal-os-theme', isDark ? 'dark' : 'light');
+}
+
+// ── DOCK MAGNIFICATION ────────────────────────────────
+function initDockMagnification() {
+    const dock = document.getElementById('dock');
+    if (!dock) return;
+
+    dock.addEventListener('mousemove', (e) => {
+        const slots = dock.querySelectorAll('.dock-slot');
+        const cursorX = e.clientX;
+
+        slots.forEach(slot => {
+            const btn = slot.querySelector('.dock-btn');
+            const rect = btn.getBoundingClientRect();
+            const center = rect.left + rect.width / 2;
+            const dist = Math.abs(cursorX - center);
+            const radius = 120;
+
+            if (dist < radius) {
+                const ratio = (radius - dist) / radius;
+                const scale = 1 + ratio * 0.35;
+                const y = -ratio * 8;
+                btn.style.transform = `scale(${scale}) translateY(${y}px)`;
+            } else {
+                btn.style.transform = 'scale(1) translateY(0)';
+            }
+        });
+    });
+
+    dock.addEventListener('mouseleave', () => {
+        const btns = dock.querySelectorAll('.dock-btn');
+        btns.forEach(btn => {
+            btn.style.transform = 'scale(1) translateY(0)';
+        });
+    });
+}
+
+function buildDesktopIcons() {
+    const area = document.getElementById('desktop-icons');
+    area.innerHTML = ''; 
+    const startX = window.innerWidth - 92;
+    let startY = 20;
+
+    APPS.filter(a => !a.hidden).forEach((app, index) => {
+        const ic = document.createElement('div');
+        ic.className = 'desktop-icon';
+        ic.id = `dicon-${app.id}`;
+        ic.style.left = startX + 'px';
+        ic.style.top = startY + (index * 84) + 'px';
+        ic.setAttribute('role', 'button');
+        ic.setAttribute('aria-label', `Open ${app.label}`);
+        ic.innerHTML = `<div class="icon-img">${iconSVG(app.id)}</div><span>${app.label}</span>`;
+        
+        setupIconDrag(ic, app.id);
+        area.appendChild(ic);
+    });
+
+    document.getElementById('desktop-view').addEventListener('mousedown', (e) => {
+        if (e.target.id === 'desktop-view' || e.target.id === 'desktop-icons') {
+            document.querySelectorAll('.desktop-icon').forEach(el => el.classList.remove('selected'));
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 767) {
+            document.querySelectorAll('.desktop-icon').forEach(ic => {
+                let currentLeft = parseInt(ic.style.left, 10) || 0;
+                let currentTop = parseInt(ic.style.top, 10) || 0;
+                let newLeft = Math.min(window.innerWidth - 76, currentLeft);
+                let newTop = Math.min(window.innerHeight - 80, currentTop);
+                ic.style.left = Math.max(0, newLeft) + 'px';
+                ic.style.top = Math.max(0, newTop) + 'px';
+            });
+        }
+    });
+}
+
+function setupIconDrag(ic, id) {
+    ic.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        activeInteraction = {
+            type: 'icon-drag',
+            id: id,
+            target: ic,
+            startX: e.clientX,
+            startY: e.clientY,
+            origLeft: parseInt(ic.style.left, 10) || 0,
+            origTop: parseInt(ic.style.top, 10) || 0,
+            hasDragged: false
+        };
+        selectIcon(id);
+        e.stopPropagation();
+    });
+}
+
+function selectIcon(id) {
+    document.querySelectorAll('.desktop-icon').forEach(el => el.classList.remove('selected'));
+    const el = document.getElementById(`dicon-${id}`);
+    if (el) el.classList.add('selected');
+}
+
+function buildDock() {
+    const dock = document.getElementById('dock');
+    APPS.filter(a => !a.hidden).forEach(app => {
+        const slot = document.createElement('div');
+        slot.className = 'dock-slot';
+        slot.id = `dslot-${app.id}`;
+        slot.innerHTML = `
+            <div class="dock-tooltip" id="tip-${app.id}" role="tooltip">${app.label}</div>
+            <div class="dock-btn" role="button" aria-describedby="tip-${app.id}" aria-label="Open ${app.label}" onclick="openApp('${app.id}')">${iconSVG(app.id)}</div>
+            <div class="dock-dot"></div>
+        `;
+        dock.appendChild(slot);
+    });
+}
+
+let wallpaperSettings = {
+    type: 'preset', // 'preset' or 'custom'
+    presetIdx: 0,
+    customUrl: '',
+    customSize: 'cover',
+    customColor: '#1e1e1e',
+    starfield: false
+};
+
+function applyWallpaper() {
+    const desktop = document.getElementById('desktop-view');
+    if (!desktop) return;
+
+    // Reset styles
+    desktop.style.background = '';
+    desktop.style.backgroundImage = '';
+    desktop.style.backgroundColor = '';
+    desktop.style.backgroundSize = '';
+    desktop.style.backgroundRepeat = '';
+    desktop.style.backgroundPosition = '';
+    desktop.classList.remove('starfield');
+
+    if (wallpaperSettings.type === 'preset') {
+        const wp = WALLPAPERS[wallpaperSettings.presetIdx];
+        if (wp) {
+            desktop.style.background = wp.bg;
+            if (wp.name === 'Starfield (CSS)' || wallpaperSettings.starfield) {
+                desktop.classList.add('starfield');
+            }
+        }
+    } else if (wallpaperSettings.type === 'custom') {
+        const url = wallpaperSettings.customUrl;
+        if (url) {
+            desktop.style.backgroundImage = `url('${url}')`;
+            
+            const size = wallpaperSettings.customSize;
+            if (size === 'cover') {
+                desktop.style.backgroundSize = 'cover';
+                desktop.style.backgroundRepeat = 'no-repeat';
+                desktop.style.backgroundPosition = 'center';
+            } else if (size === 'contain') {
+                desktop.style.backgroundSize = 'contain';
+                desktop.style.backgroundRepeat = 'no-repeat';
+                desktop.style.backgroundPosition = 'center';
+            } else if (size === 'center') {
+                desktop.style.backgroundSize = 'auto';
+                desktop.style.backgroundRepeat = 'no-repeat';
+                desktop.style.backgroundPosition = 'center';
+            } else if (size === 'tile') {
+                desktop.style.backgroundSize = 'auto';
+                desktop.style.backgroundRepeat = 'repeat';
+                desktop.style.backgroundPosition = 'top left';
+            }
+        }
+        desktop.style.backgroundColor = wallpaperSettings.customColor || '#1e1e1e';
+        if (wallpaperSettings.starfield) {
+            desktop.classList.add('starfield');
+        }
+    }
+
+    saveWallpaperSettings();
+}
+
+function saveWallpaperSettings() {
+    try {
+        localStorage.setItem('personal-os-wallpaper-settings', JSON.stringify(wallpaperSettings));
+    } catch (e) {
+        if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+            console.warn("Storage quota exceeded, custom wallpaper URL won't persist across reloads.");
+            const tempSettings = { ...wallpaperSettings, customUrl: '' };
+            try {
+                localStorage.setItem('personal-os-wallpaper-settings', JSON.stringify(tempSettings));
+            } catch (innerErr) {}
+        }
+    }
+}
+
+function loadWallpaperSettings() {
+    const saved = localStorage.getItem('personal-os-wallpaper-settings');
+    if (saved) {
+        try {
+            wallpaperSettings = JSON.parse(saved);
+        } catch (e) {
+            console.error("Failed to parse wallpaper settings", e);
+        }
+    } else {
+        const oldIdx = localStorage.getItem('personal-os-wallpaper');
+        if (oldIdx !== null) {
+            const idx = parseInt(oldIdx, 10);
+            if (!isNaN(idx) && idx >= 0 && idx < WALLPAPERS.length) {
+                wallpaperSettings.type = 'preset';
+                wallpaperSettings.presetIdx = idx;
+            }
+        }
+    }
+    
+    // Safety check for bounds after presets array was shortened
+    if (wallpaperSettings.type === 'preset' && (wallpaperSettings.presetIdx < 0 || wallpaperSettings.presetIdx >= WALLPAPERS.length)) {
+        wallpaperSettings.presetIdx = 0;
+    }
+    
+    applyWallpaper();
+}
+
+function buildWallpaperPicker() {
+    const container = document.getElementById('wp-swatches');
+    container.innerHTML = '';
+    
+    loadWallpaperSettings();
+
+    WALLPAPERS.forEach((wp, i) => {
+        const sw = document.createElement('div');
+        sw.className = 'wp-swatch';
+        if (wallpaperSettings.type === 'preset' && wallpaperSettings.presetIdx === i) {
+            sw.classList.add('active');
+        }
+        sw.style.background = wp.bg;
+        sw.title = wp.name;
+        sw.onclick = () => {
+            wallpaperSettings.type = 'preset';
+            wallpaperSettings.presetIdx = i;
+            
+            document.getElementById('wp-file-upload').value = '';
+            document.getElementById('wp-file-name').textContent = 'No file chosen';
+            document.getElementById('wp-url-input').value = '';
+            
+            document.querySelectorAll('.wp-swatch').forEach(s => s.classList.remove('active'));
+            sw.classList.add('active');
+            
+            applyWallpaper();
+        };
+        container.appendChild(sw);
+    });
+
+    if (wallpaperSettings.type === 'custom') {
+        if (wallpaperSettings.customUrl.startsWith('data:')) {
+            document.getElementById('wp-file-name').textContent = 'Custom Image File';
+        } else {
+            document.getElementById('wp-url-input').value = wallpaperSettings.customUrl;
+        }
+    }
+    
+    document.getElementById('wp-size-select').value = wallpaperSettings.customSize;
+    document.getElementById('wp-color-input').value = wallpaperSettings.customColor;
+    document.getElementById('wp-starfield-checkbox').checked = wallpaperSettings.starfield;
+}
+
+function showWallpaperPicker() {
+    const p = document.getElementById('wallpaper-picker');
+    p.style.display = p.style.display === 'block' ? 'none' : 'block';
+}
+
+function handleWallpaperUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    document.getElementById('wp-file-name').textContent = file.name;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        wallpaperSettings.type = 'custom';
+        wallpaperSettings.customUrl = e.target.result;
+        
+        document.querySelectorAll('.wp-swatch').forEach(s => s.classList.remove('active'));
+        document.getElementById('wp-url-input').value = '';
+        
+        applyWallpaper();
+    };
+    reader.readAsDataURL(file);
+}
+
+function handleWallpaperUrlChange(url) {
+    wallpaperSettings.type = 'custom';
+    wallpaperSettings.customUrl = url;
+    
+    document.querySelectorAll('.wp-swatch').forEach(s => s.classList.remove('active'));
+    document.getElementById('wp-file-upload').value = '';
+    document.getElementById('wp-file-name').textContent = 'No file chosen';
+    
+    applyWallpaper();
+}
+
+function handleWallpaperSizeChange(size) {
+    wallpaperSettings.customSize = size;
+    if (wallpaperSettings.type === 'custom') {
+        applyWallpaper();
+    }
+}
+
+function handleWallpaperColorChange(color) {
+    wallpaperSettings.customColor = color;
+    if (wallpaperSettings.type === 'custom') {
+        applyWallpaper();
+    }
+}
+
+function handleWallpaperColorPreset(color) {
+    document.getElementById('wp-color-input').value = color;
+    handleWallpaperColorChange(color);
+}
+
+function handleStarfieldChange(checked) {
+    wallpaperSettings.starfield = checked;
+    applyWallpaper();
+}
+
+function closeDDOnOutsideClick() {
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.menubar-item')) {
+            document.querySelectorAll('.menubar-item').forEach(m => m.classList.remove('active'));
+        }
+        if (!e.target.closest('#wallpaper-picker') && !e.target.closest('.menubar-item')) {
+            document.getElementById('wallpaper-picker').style.display = 'none';
+        }
+    });
+
+    document.querySelectorAll('.menubar-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isActive = item.classList.contains('active');
+            document.querySelectorAll('.menubar-item').forEach(m => m.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
+        });
+    });
+}
+
+// ── CLOCK ─────────────────────────────────────────────
+function updateClock() {
+    const now = new Date();
+    const dow = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][now.getDay()];
+    const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][now.getMonth()];
+    const d = now.getDate();
+    let h = now.getHours(), m = now.getMinutes();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    const ms = m < 10 ? '0' + m : m;
+    document.getElementById('clock').textContent = `${dow} ${mon} ${d}  ${h}:${ms} ${ampm}`;
+}
+
+// ── WINDOW MANAGEMENT ─────────────────────────────────
+function openApp(id) {
+    const app = APPS.find(a => a.id === id);
+    if (!app) return;
+
+    if (openWindows[id]) {
+        const w = openWindows[id];
+        w.el.classList.remove('minimized');
+        w.el.classList.add('open');
+        bringToFront(id);
+        if (id === 'terminal') focusTerminal();
+        return;
+    }
+
+    const win = document.createElement('div');
+    win.className = 'os-window';
+    win.style.width = app.width + 'px';
+    win.style.height = app.height + 'px';
+    
+    const offset = (Object.keys(openWindows).length % 6) * 22;
+    win.style.left = `max(30px, calc(50vw - ${app.width/2}px + ${offset}px))`;
+    win.style.top = `max(38px, calc(50vh - ${app.height/2}px + ${offset}px))`;
+
+    const title = titleFor(id);
+    win.innerHTML = `
+        <div class="window-header">
+            <div class="traffic-lights">
+                <div class="tl close" title="Close" role="button" aria-label="Close window" tabindex="0" onclick="closeApp('${id}',event)"></div>
+                <div class="tl minbtn" title="Minimise" role="button" aria-label="Minimise window" tabindex="0" onclick="minimiseApp('${id}',event)"></div>
+                <div class="tl maxbtn" title="Maximise" role="button" aria-label="Maximise window" tabindex="0" onclick="maximiseApp('${id}',event)"></div>
+            </div>
+            <div class="window-title">${title}</div>
+        </div>
+        <div class="window-content" tabindex="-1">${buildContent(id)}</div>
+        <div class="resize-handle" onmousedown="startResize('${id}', event)"></div>
+    `;
+
+    win.addEventListener('mousedown', () => bringToFront(id));
+    setupDrag(win, id);
+
+    document.getElementById('window-container').appendChild(win);
+    
+    openWindows[id] = { el: win, maximised: false };
+    bringToFront(id);
+    
+    requestAnimationFrame(() => {
+        win.classList.add('open');
+        win.querySelector('.window-content').focus();
+    });
+    setDockActive(id, true);
+
+    if (id === 'terminal') initTerminal();
+}
+
+function titleFor(id) {
+    const map = {
+        projects: 'Projects', resume: 'Resume — Aakash Buddha Kannan',
+        terminal: 'Terminal — aakash@personal-os', about: 'About.txt — Aakash Buddha Kannan',
+        contact: 'Contact', achievements: 'Achievements', skills: 'Skills',
+        easteregg: 'Secret 🎉'
+    };
+    return map[id] || id;
+}
+
+function closeApp(id, e) {
+    if (e) e.stopPropagation();
+    if (!openWindows[id]) return;
+    const win = openWindows[id].el;
+    win.classList.remove('open');
+    win.style.opacity = '0';
+    win.style.transform = 'scale(0.95) translateY(6px)';
+    
+    if (id === 'terminal') {
+        terminalInitialised = false;
+    }
+
+    setTimeout(() => { win.remove(); delete openWindows[id]; setDockActive(id, false); }, 200);
+}
+
+function minimiseApp(id, e) {
+    if (e) e.stopPropagation();
+    if (!openWindows[id]) return;
+    openWindows[id].el.classList.add('minimized');
+}
+
+function maximiseApp(id, e) {
+    if (e) e.stopPropagation();
+    if (!openWindows[id]) return;
+    const w = openWindows[id];
+    const win = w.el;
+    
+    if (w.maximised) {
+        win.style.left = w.prevLeft; win.style.top = w.prevTop;
+        win.style.width = w.prevWidth; win.style.height = w.prevHeight;
+        w.maximised = false;
+    } else {
+        w.prevLeft = win.style.left; w.prevTop = win.style.top;
+        w.prevWidth = win.style.width; w.prevHeight = win.style.height;
+        
+        const dockHeight = document.getElementById('dock-container').offsetHeight + 16;
+        win.style.left = '0'; win.style.top = '28px';
+        win.style.width = '100vw'; win.style.height = `calc(100vh - 28px - ${dockHeight}px)`;
+        w.maximised = true;
+    }
+}
+
+function closeAllWindows() {
+    Object.keys(openWindows).forEach(id => closeApp(id));
+}
+
+function bringToFront(id) {
+    if (!openWindows[id]) return;
+    highestZ++;
+    openWindows[id].el.style.zIndex = highestZ;
+    document.querySelectorAll('.os-window').forEach(w => w.classList.remove('focused'));
+    openWindows[id].el.classList.add('focused');
+}
+
+function setDockActive(id, active) {
+    const slot = document.getElementById(`dslot-${id}`);
+    if (slot) slot.classList.toggle('active', active);
+}
+
+// ── DRAG & RESIZE CENTRAL REGISTRATION ────────────────
+function setupDrag(win, id) {
+    const header = win.querySelector('.window-header');
+    header.addEventListener('mousedown', (e) => {
+        if (e.target.classList.contains('tl') || e.target.classList.contains('resize-handle')) return;
+        if (openWindows[id]?.maximised) return;
+        const rect = win.getBoundingClientRect();
+        activeInteraction = {
+            type: 'drag',
+            id: id,
+            target: win,
+            startX: e.clientX,
+            startY: e.clientY,
+            origLeft: rect.left,
+            origTop: rect.top
+        };
+        win.style.transition = 'none';
+        e.preventDefault();
+    });
+}
+
+function startResize(id, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const win = openWindows[id].el;
+    const rect = win.getBoundingClientRect();
+    activeInteraction = {
+        type: 'resize',
+        id: id,
+        target: win,
+        startX: e.clientX,
+        startY: e.clientY,
+        origWidth: rect.width,
+        origHeight: rect.height
+    };
+    win.style.transition = 'none';
+}
+
+// ── CONTENT BUILDERS ──────────────────────────────────
+function buildContent(id) {
+    switch(id) {
+        case 'projects': return buildProjects();
+        case 'resume':   return buildResume();
+        case 'terminal': return buildTerminalHTML();
+        case 'about':    return buildAbout();
+        case 'contact':  return buildContact();
+        case 'achievements': return buildAchievements();
+        case 'skills':   return buildSkills();
+        case 'easteregg': return buildEasterEgg();
+        default: return '<div style="padding:20px">Content not found.</div>';
+    }
+}
+
+function buildProjects(filter = 'all') {
+    const filtered = filter === 'all' ? PROJECTS : PROJECTS.filter(p => p.category === filter);
+
+    const filterHtml = `
+        <div class="project-filters">
+            <button class="filter-btn ${filter === 'all' ? 'active' : ''}" onclick="updateProjectFilter('all')">All</button>
+            <button class="filter-btn ${filter === 'fullstack' ? 'active' : ''}" onclick="updateProjectFilter('fullstack')">Full-Stack</button>
+            <button class="filter-btn ${filter === 'game' ? 'active' : ''}" onclick="updateProjectFilter('game')">Games</button>
+        </div>`;
+
+    const cardsHtml = `<div class="projects-grid">${filtered.map(p => `
+        <div class="project-card">
+            <div class="project-title">${p.title}</div>
+            <div class="project-stack">${p.stack.map(s => `<span class="pill">${s}</span>`).join('')}</div>
+            <div class="project-desc">${p.desc}</div>
+            <div class="project-actions">
+                ${p.live ? `<a href="${p.live}" target="_blank" class="btn">Live Demo</a>` : ''}
+                ${p.link ? `<a href="${p.link}" target="_blank" class="btn ${p.live ? 'secondary' : ''}">GitHub</a>` : ''}
+            </div>
+        </div>`).join('')}</div>`;
+
+    return filterHtml + cardsHtml;
+}
+
+function updateProjectFilter(filter) {
+    const win = openWindows['projects'];
+    if (win) {
+        win.el.querySelector('.window-content').innerHTML = buildProjects(filter);
+    }
+}
+
+function buildResume() {
+    const resumeProjects = PROJECTS.filter(p => p.onResume);
+
+    return `<div class="resume-container" id="resume-print-area">
+        <div class="resume-header">
+            <div class="resume-name">Aakash Buddha Kannan</div>
+            <div class="resume-contact">
+                <a href="mailto:aakashb.kannan@gmail.com">aakashb.kannan@gmail.com</a> · 9025649618 · Chennai, India<br>
+                <a href="https://linkedin.com/in/aakashbuddhakannan" target="_blank">LinkedIn: aakashbuddhakannan</a> ·
+                <a href="https://github.com/Aakashxnoir" target="_blank">GitHub: Aakashxnoir</a>
+            </div>
+        </div>
+
+        <div class="resume-section">
+            <div class="resume-section-title">Summary</div>
+            <div class="resume-desc">First-year CS undergraduate with proven ability to build and ship production-ready full-stack applications. Won 1st place at Designathon with a smart campus platform built under pressure. Participated in 10+ hackathons including inter-institutional events at VIT Chennai. Seeking a software development internship to contribute to real-world engineering challenges.</div>
+        </div>
+
+        <div class="resume-section">
+            <div class="resume-section-title">Education</div>
+            <div class="resume-item">
+                <div class="resume-item-header"><span>Rajalakshmi Institute of Technology, Chennai, India</span><span>Sep 2024 – May 2028</span></div>
+                <div class="resume-item-sub">Bachelor of Engineering in Computer Science · CGPA: 7.8 / 10.0</div>
+            </div>
+        </div>
+
+        <div class="resume-section">
+            <div class="resume-section-title">Achievements</div>
+            <div class="resume-desc"><ul>
+                <li><strong>1st Place — Designathon 2025:</strong> RIT Digital Twin: Smart Campus Management Platform. Delivered a production-ready smart campus platform — JWT auth, role-based access for 5 user types, timetable generation with PDF export, and classroom booking workflow. Stack: React, Spring Boot (Java 21), MySQL 8, Docker; deployed on Vercel and Render with full CI/CD configuration.</li>
+                <li><strong>1st Place — Grand Prix F1 Gaming Tournament (Apr 2026):</strong> Gamathon, organized by Revolution Games (Apr 9–11, 2026). Won 1st place in a 3-day competitive F1 gaming tournament — demonstrating strategic decision-making, composure, and consistency under pressure.</li>
+                <li><strong>Participant — Hack The Horizon 2.0, VIT Chennai (Aug 2025):</strong> 24-hour inter-institutional hackathon, AI Club, VIT Chennai. Built and presented a functional prototype in 24 hours at a competitive inter-institutional hackathon.</li>
+            </ul></div>
+        </div>
+
+        <div class="resume-section">
+            <div class="resume-section-title">Projects</div>
+            ${resumeProjects.map(p => `<div class="resume-item">
+                <div class="resume-item-header"><span>${p.title}</span><span>${p.period || ''}</span></div>
+                <div class="resume-item-sub">${p.stack.join(', ')}</div>
+                <div class="resume-desc">${p.desc}</div>
+            </div>`).join('')}
+        </div>
+
+        <div class="resume-section">
+            <div class="resume-section-title">Technical Skills</div>
+            <div class="resume-desc">
+                ${SKILLS.map(s => `<strong>${s.cat}:</strong> ${s.items.join(', ')}<br>`).join('')}
+            </div>
+        </div>
+
+        <div class="resume-section">
+            <div class="resume-section-title">Extra-Curricular</div>
+            <div class="resume-desc"><ul>
+                <li><strong>Volleyball (Spiker):</strong> Represented college in inter-college competitive matches; developed discipline and team coordination.</li>
+                <li><strong>Editor — Women's Empowerment Club, RIT:</strong> Creates content promoting awareness and student engagement.</li>
+            </ul></div>
+        </div>
+
+        <div style="text-align:center;margin-top:24px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+            <button class="btn" onclick="downloadResume()">Download PDF</button>
+            <button class="btn secondary" onclick="printResume()">Print Resume</button>
+        </div>
+    </div>`;
+}
+
+function buildTerminalHTML() {
+    return `<div class="terminal-outer">
+        <div id="term-output">Welcome to Personal OS v1.1.0\nType <span style="color:#ffd60a">help</span> for available commands.</div>
+        <div class="term-input-row">
+            <span class="term-prompt"><span class="term-user">aakash</span><span style="color:#888">@</span><span class="term-host">personal-os</span> <span class="term-path">~</span> $</span>
+            <input type="text" id="term-input" autocomplete="off" spellcheck="false"
+                   style="flex:1;background:transparent;border:none;color:#30d158;font-family:'SF Mono','Fira Code',monospace;font-size:13px;outline:none;margin-left:8px;" />
+        </div>
+    </div>`;
+}
+
+function buildAbout() {
+    return `<div class="textedit-outer">
+        <div class="textedit-toolbar">
+            <div class="textedit-fmt-btn">B</div>
+            <div class="textedit-fmt-btn" style="font-style:italic">I</div>
+            <div class="textedit-fmt-btn" style="text-decoration:underline">U</div>
+        </div>
+        <div class="textedit-content">ABOUT ME
+--------
+Hey, I'm Aakash — a first-year CS undergrad at
+Rajalakshmi Institute of Technology, Chennai.
+
+I build production-ready full-stack applications and
+won 1st place at Designathon 2025 with RIT Digital
+Twin — a smart campus platform deployed on Vercel
+and Render with full CI/CD.
+
+I've participated in 10+ hackathons, contribute as
+Editor at the Women's Empowerment Club, and compete
+as a volleyball spiker at inter-college level.
+
+Seeking a software development internship to
+contribute to real-world engineering challenges.
+
+— Aakash</div>
+    </div>`;
+}
+
+function buildContact() {
+    const rows = [
+        { cls:'mail',    icon:'📧', label:'Email',    val:'aakashb.kannan@gmail.com', href:'mailto:aakashb.kannan@gmail.com' },
+        { cls:'phone',   icon:'📱', label:'Phone',    val: getPhoneDisplay(), isPhone: true },
+        { cls:'github',  icon:'🐙', label:'GitHub',   val:'github.com/Aakashxnoir', href:'https://github.com/Aakashxnoir' },
+        { cls:'linkedin',icon:'💼', label:'LinkedIn', val:'in/aakashbuddhakannan', href:'https://linkedin.com/in/aakashbuddhakannan' }
+    ];
+
+    return `<div class="contact-outer">
+        <div class="contact-header">
+            <div class="contact-avatar">ABK</div>
+            <div class="contact-header-text">
+                <h2>Aakash Buddha Kannan</h2>
+                <p>CS Undergraduate · Chennai, India</p>
+            </div>
+        </div>
+        <div class="contact-rows">
+            ${rows.map(r => `<div class="contact-row">
+                <div class="contact-icon ${r.cls}" style="font-size:20px">${r.icon}</div>
+                <div class="contact-row-text">
+                    <label>${r.label}</label>
+                    ${r.isPhone ? `<span class="phone-val">${r.val}</span>` : (r.href ? `<a href="${r.href}" target="_blank">${r.val}</a>` : `<span>${r.val}</span>`)}
+                </div>
+            </div>`).join('')}
+        </div>
+        <div class="contact-note">Seeking a software development internship. Open to collaborations — let's build something great.</div>
+    </div>`;
+}
+
+function buildAchievements() {
+    return `<div class="achievements-outer">
+        ${ACHIEVEMENTS.map(a => `<div class="ach-item">
+            <div class="ach-icon-wrap ${a.badge}" style="font-size:26px">${a.emoji}</div>
+            <div class="ach-body">
+                <span class="ach-badge ${a.badge}">${a.badgeText}</span>
+                <div class="ach-title">${a.title}</div>
+                <div class="ach-desc">${a.desc}</div>
+            </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+function buildSkills() {
+    return `<div class="skills-outer">
+        ${SKILLS.map(s => `<div class="skill-category">
+            <div class="skill-cat-label">${s.cat}</div>
+            <div class="skill-pills">${s.items.map(i => `<span class="skill-pill ${s.class}">${i}</span>`).join('')}</div>
+        </div>`).join('')}
+    </div>`;
+}
+
+function buildEasterEgg() {
+    return `<div class="egg-content">
+        <div style="font-size:44px;margin-bottom:14px">🎉</div>
+        <h3 style="font-size:18px;font-weight:700;margin-bottom:12px;">You found it!</h3>
+        <p style="font-size:14px;line-height:1.65;color:var(--text-secondary);max-width:260px;">
+            Respect for knowing the Konami code.<br><br>
+            Here's a secret: I once stayed up 36 hours to finish a hackathon build.<br><br>
+            Worth it. 🏆
+        </p>
+    </div>`;
+}
+
+// ── TERMINAL LOGIC ────────────────────────────────────
+function initTerminal() {
+    if (terminalInitialised) return;
+    
+    setTimeout(() => {
+        const input = document.getElementById('term-input');
+        const output = document.getElementById('term-output');
+        if (!input || !output) return;
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = input.value.trim().toLowerCase();
+                output.innerHTML += `\n<span style="color:#64d2ff">aakash</span><span style="color:#888">@</span><span style="color:#30d158">personal-os</span> <span style="color:#ffd60a">~</span> $ ${cmd}\n`;
+                input.value = '';
+                runCommand(cmd, output);
+                output.scrollTop = output.scrollHeight;
+            }
+        });
+        input.focus();
+        terminalInitialised = true;
+    }, 100);
+}
+
+function focusTerminal() {
+    setTimeout(() => { document.getElementById('term-input')?.focus(); }, 100);
+}
+
+function runCommand(cmd, output) {
+    const responses = {
+        'help': `Available commands:
+  <span style="color:#ffd60a">help</span>      — List all commands
+  <span style="color:#ffd60a">skills</span>    — Technical skills table
+  <span style="color:#ffd60a">whoami</span>    — Short bio
+  <span style="color:#ffd60a">projects</span>  — List projects
+  <span style="color:#ffd60a">contact</span>   — Contact info
+  <span style="color:#ffd60a">resume</span>    — Download resume PDF
+  <span style="color:#ffd60a">clear</span>     — Clear terminal
+  <span style="color:#ffd60a">neofetch</span>  — System info`,
+        'whoami': `Aakash Buddha Kannan.
+First-year CS Undergrad @ RIT Chennai.  Designathon winner.  Hackathon participant (10+).
+Seeking a software development internship.`,
+        'skills': `+-------------+--------------------------------------------------+
+│ Category    │ Skills                                           │
++-------------+--------------------------------------------------+
+│ Languages   │ Python, Java, TypeScript, JS, C/C++, SQL         │
+│ Frontend    │ React 18, Vite, Tailwind CSS, Redux Toolkit      │
+│ Backend     │ Flask, Spring Boot, FastAPI, Node.js, Redis      │
+│ Databases   │ MySQL, SQLite, MongoDB, Firebase/Firestore       │
+│ Cloud/Tools │ AWS, Docker, Vercel, Render, Git, Godot 4        │
++-------------+--------------------------------------------------+`,
+        'projects': `1. GfG Campus Club Website  — React · Vite · Firebase (2025)
+2. CONDuit Skill Exchange   — React · Flask · Celery · Redis (2024)
+3. College Productivity OS  — Python · Flask · SQLite/MySQL (2024)
+4. Irrumbu Kottai...        — Godot 4 · GDScript (2026)`,
+        'contact': `Email:    aakashb.kannan@gmail.com
+GitHub:   github.com/Aakashxnoir
+LinkedIn: linkedin.com/in/aakashbuddhakannan
+Phone:    9025649618
+Location: Chennai, India`,
+        'resume': 'Downloading Aakash_resume.pdf…',
+        'neofetch': `<span style="color:#007AFF">     ████████████    </span>  <span style="color:white">aakash</span><span style="color:#888">@</span><span style="color:#30d158">personal-os</span>
+<span style="color:#007AFF">   ████████████████  </span>  <span style="color:#888">─────────────────────</span>
+<span style="color:#007AFF">  ██████████████████ </span>  <span style="color:#888">OS:</span>       Personal OS v1.1.0
+<span style="color:#007AFF">  ██████████████████ </span>  <span style="color:#888">Role:</span>     CS Undergraduate
+<span style="color:#007AFF">  ██████████████████ </span>  <span style="color:#888">Location:</span> Chennai, India
+<span style="color:#007AFF">   ████████████████  </span>  <span style="color:#888">School:</span>   RIT (BE CSE, 1st Year)
+<span style="color:#007AFF">     ████████████    </span>  <span style="color:#888">CGPA:</span>     7.8 / 10.0
+                        <span style="color:#888">Stack:</span>    React · Flask · Docker
+                        <span style="color:#888">Seeking:</span>  SW Dev Internship
+
+<span style="color:#ff5f57">███</span><span style="color:#febc2e">███</span><span style="color:#28c840">███</span><span style="color:#007AFF">███</span><span style="color:#5856D6">███</span><span style="color:#ff2d55">███</span>`
+    };
+
+    if (cmd === 'clear') { output.innerHTML = ''; return; }
+    if (cmd === 'resume') { downloadResume(); return; }
+    if (cmd === '') return;
+
+    const el = document.createElement('div');
+    if (responses[cmd]) {
+        el.innerHTML = responses[cmd];
+    } else {
+        el.innerHTML = `<span style="color:#ff453a">command not found:</span> ${cmd}. Type <span style="color:#ffd60a">help</span> for commands.`;
+    }
+    output.appendChild(el);
+}
+
+// ── ABOUT TOAST ───────────────────────────────────────
+function showAbout() {
+    const existing = document.getElementById('about-toast');
+    if (existing) { existing.remove(); return; }
+
+    const t = document.createElement('div');
+    t.id = 'about-toast';
+    t.style.cssText = 'position:fixed;top:42px;left:50%;transform:translateX(-50%);background:var(--dropdown-bg);backdrop-filter:blur(20px);border:0.5px solid var(--dropdown-border);border-radius:14px;padding:20px 24px;z-index:99999;box-shadow:0 12px 40px rgba(0,0,0,0.15);text-align:center;min-width:300px;color:var(--text-primary);';
+    
+    t.innerHTML = `<div style="font-size:32px;margin-bottom:10px">💻</div>
+        <div style="font-weight:700;font-size:16px;margin-bottom:4px">Personal OS</div>
+        <div style="font-size:13px;color:var(--text-secondary);margin-bottom:4px">Version 1.1.0</div>
+        <div style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">Built by Aakash Buddha Kannan</div>
+        <div style="font-size:12px;color:var(--text-secondary)">© 2026 · Chennai, India</div>
+        <button onclick="document.getElementById('about-toast').remove()" 
+            style="margin-top:16px;padding:6px 20px;border-radius:7px;border:0.5px solid var(--card-border);background:var(--pill-bg);color:var(--text-primary);cursor:pointer;font-size:13px;font-weight:500">
+            OK
+        </button>`;
+    
+    document.body.appendChild(t);
+}
+
+function copyEmail() {
+    navigator.clipboard.writeText('aakashb.kannan@gmail.com').then(() => {
+        const t = document.createElement('div');
+        t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(30,30,32,0.85);color:white;padding:8px 18px;border-radius:20px;font-size:13px;z-index:99999;pointer-events:none;';
+        t.textContent = 'Email copied ✓';
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 2000);
+    });
+}
+
+function downloadResume() {
+    const a = document.createElement('a');
+    a.href = RESUME_PDF;
+    a.download = 'Aakash_Buddha_Kannan_Resume.pdf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+}
+
+function printResume() {
+    if (!openWindows['resume']) openApp('resume');
+    setTimeout(() => window.print(), 300);
+}
+
+// ── KONAMI CODE ───────────────────────────────────────
+const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let konamiIdx = 0;
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === KONAMI[konamiIdx]) {
+        konamiIdx++;
+        if (konamiIdx === KONAMI.length) { openApp('easteregg'); konamiIdx = 0; }
+    } else {
+        konamiIdx = (e.key === KONAMI[0]) ? 1 : 0;
+    }
+});
+
+// ── MOBILE CONTENT ────────────────────────────────────
+function populateMobile() {
+    document.getElementById('mob-projects').innerHTML = PROJECTS.map(p => `
+        <div class="mob-card">
+            <div class="mob-card-title">${p.title}</div>
+            <div class="project-stack" style="margin-bottom:8px">${p.stack.map(s => `<span class="pill">${s}</span>`).join('')}</div>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:10px">${p.desc}</p>
+            ${p.link ? `<a href="${p.link}" target="_blank" class="mob-btn primary" style="font-size:13px;height:44px;">GitHub</a>` : ''}
+        </div>`).join('');
+
+    document.getElementById('mob-skills').innerHTML = SKILLS.map(s => `
+        <div style="margin-bottom:14px">
+            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.7px;color:var(--accent);margin-bottom:6px">${s.cat}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">${s.items.map(i => `<span class="skill-pill ${s.class}">${i}</span>`).join('')}</div>
+        </div>`).join('');
+
+    document.getElementById('mob-achievements').innerHTML = ACHIEVEMENTS.map(a => `
+        <div class="mob-card" style="display:flex;gap:12px;align-items:flex-start">
+            <div style="font-size:26px">${a.emoji}</div>
+            <div>
+                <div style="font-weight:600;font-size:14px;margin-bottom:4px;color:var(--text-primary);">${a.title}</div>
+                <div style="font-size:13px;color:var(--text-secondary);">${a.desc}</div>
+            </div>
+        </div>`).join('');
+}
+</script>
+</body>
+</html>
