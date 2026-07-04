@@ -2,7 +2,31 @@
 
 A responsive, interactive, and beautifully designed developer portfolio styled after the macOS desktop environment. Users can interact with windows, run terminal commands, customize their experience with wallpapers, and explore projects, skills, and awards in an immersive OS-like interface.
 
-![Portfolio Preview](./25aa1a16b78d63f639b04b8427d4f2d6.jpg)
+## 📸 Screenshots & Visual Tour
+
+### 1. Desktop Workspace
+![Desktop Workspace](./assets/bliss_desktop.png)
+*The main desktop workspace running the classic **Windows XP Bliss** wallpaper preset. It includes desktop icons on the right, a system menubar at the top, and the interactive app dock at the bottom.*
+
+---
+
+### 2. Multi-Window Multitasking
+![Multi-Window Workspace](./assets/all_windows_open.png)
+*All portfolio applications (Projects, Resume, Skills, About, Achievements, and Contact) open simultaneously. The windows are draggable, resizable, and support focus stacking (Z-index layering).*
+
+---
+
+### 3. Advanced Wallpaper & Background Configurations
+![Wallpaper Preferences](./assets/wallpaper_settings.png)
+*The wallpaper preference panel. Users can choose from presets, paste image/GIF URLs, or upload local image files. For transparent images or GIFs, they can configure the scale layout and custom solid background colors directly beneath it, as well as toggle a CSS starfield canvas.*
+
+---
+
+### 4. Interactive Easter Eggs
+![Secret Easter Egg](./assets/easter_egg.png)
+*The hidden "Secret" window, unlocked dynamically by typing the classic **Konami Code** (`↑` `↑` `↓` `↓` `←` `→` `←` `→` `b` `a`) anywhere on the desktop.*
+
+---
 
 ## ✨ Key Features
 
@@ -53,7 +77,7 @@ To run the project locally:
 
 - `index.html` — Main layout, style declarations, content modules, and OS logic.
 - `Os.html` — Symbolic link pointing to `index.html` for direct entry point support.
-- `25aa1a16b78d63f639b04b8427d4f2d6.jpg` — Default Bliss wallpaper asset.
+- `assets/` — Directory containing screenshot previews and assets.
 - `package.json` — Dev script execution configuration.
 - `.gitignore` — Ignore metadata and cache files.
 - `README.md` — Project documentation.
