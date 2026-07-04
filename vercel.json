@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/Os.html", "destination": "/index.html" },
+    { "source": "/Os", "destination": "/index.html" }
+  ]
+}
